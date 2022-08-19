@@ -221,13 +221,18 @@ public class App {
                 JOptionPane.showMessageDialog(frame, "Please enter food info");
                 jtf_foodname.requestFocus();
             } else {
-                try {
-                    Statement stmt = con.createStatement();
-                    stmt.executeUpdate("insert into tbl_foods (`food_name`, `food_price`, `food_desc`) VALUES ('"
-                            + foodname + "','" + foodprice + "','" + fooddesc + "')");
-                    loadData();
-                } catch (Exception err) {
-                    System.out.println(err);
+                int result = JOptionPane.showConfirmDialog(frame, "Insert this food data " + foodname + "?", "Insert",
+                        JOptionPane.YES_NO_OPTION,
+                        JOptionPane.QUESTION_MESSAGE);
+                if (result == JOptionPane.YES_OPTION) {
+                    try {
+                        Statement stmt = con.createStatement();
+                        stmt.executeUpdate("insert into tbl_foods (`food_name`, `food_price`, `food_desc`) VALUES ('"
+                                + foodname + "','" + foodprice + "','" + fooddesc + "')");
+                        loadData();
+                    } catch (Exception err) {
+                        System.out.println(err);
+                    }
                 }
             }
         }
