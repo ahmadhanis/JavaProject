@@ -16,8 +16,10 @@ public class App {
 
     JTextField jtf_foodname, jtf_foodprice;
     JTextArea jta_fooddesc;
+    JButton jb_add, jb_delete, jb_update, jb_search;
     JTable jt;
     JFrame frame;
+    JLabel lbl_foodname, lbl_foodprice, lbl_fooddesc;
     ArrayList<Food> foodlist;
     Food food;
     String header[] = new String[] { "ID", "Food Name", "Food Price", "Food Description" };
@@ -50,7 +52,7 @@ public class App {
 
     private void mainInterface() {
         frame = new JFrame();
-        JLabel lbl_foodname = new JLabel();
+        lbl_foodname = new JLabel();
         lbl_foodname.setText("Food Name");
         lbl_foodname.setBounds(10, 10, 100, 50);
         frame.add(lbl_foodname);
@@ -59,7 +61,7 @@ public class App {
         jtf_foodname.setBounds(100, 25, 250, 25);
         frame.add(jtf_foodname);
 
-        JLabel lbl_foodprice = new JLabel();
+        lbl_foodprice = new JLabel();
         lbl_foodprice.setText("Price");
         lbl_foodprice.setBounds(10, 35, 100, 50);
         frame.add(lbl_foodprice);
@@ -68,7 +70,7 @@ public class App {
         jtf_foodprice.setBounds(100, 50, 100, 25);
         frame.add(jtf_foodprice);
 
-        JLabel lbl_fooddesc = new JLabel();
+        lbl_fooddesc = new JLabel();
         lbl_fooddesc.setText("Description");
         lbl_fooddesc.setBounds(10, 55, 100, 50);
         frame.add(lbl_fooddesc);
@@ -78,25 +80,25 @@ public class App {
         jta_fooddesc.setBorder(new JTextField().getBorder());
         frame.add(jta_fooddesc);
 
-        JButton jb_add = new JButton();
+        jb_add = new JButton();
         jb_add.setText("Add");
         jb_add.setBounds(10, 140, 100, 25);
         frame.add(jb_add);
         jb_add.addActionListener(addFoodListener);
 
-        JButton jb_delete = new JButton();
+        jb_delete = new JButton();
         jb_delete.setText("Delete");
         jb_delete.setBounds(120, 140, 100, 25);
         frame.add(jb_delete);
         jb_delete.addActionListener(delFoodListener);
 
-        JButton jb_update = new JButton();
+        jb_update = new JButton();
         jb_update.setText("Update");
         jb_update.setBounds(230, 140, 100, 25);
         frame.add(jb_update);
         jb_update.addActionListener(updateFoodListener);
 
-        JButton jb_search = new JButton();
+        jb_search = new JButton();
         jb_search.setText("Search");
         jb_search.setBounds(340, 140, 100, 25);
         frame.add(jb_search);
@@ -115,28 +117,22 @@ public class App {
         frame.setVisible(true);// making the frame visible
     }
 
-    private void loadData() {
+    private void loadData() throws SQLException {
         foodlist = new ArrayList<>();
-        try {
-
-            Statement stmt = con.createStatement();
-            rs = stmt.executeQuery("select * from tbl_foods");
-            foodlist.clear();
-            while (rs.next()) {
-                foodlist.add(new Food(rs.getInt(1), rs.getString(2), rs.getFloat(3), rs.getString(4)));
-            }
-            dtm.setRowCount(0);// reset data model
-            for (int i = 0; i < foodlist.size(); i++) {
-                Object[] objs = { foodlist.get(i).foodid, foodlist.get(i).foodname, foodlist.get(i).foodprice,
-                        foodlist.get(i).fooddesc, };
-                dtm.addRow(objs);
-            }
-
-        } catch (Exception e) {
-            System.out.println(e);
+        Statement stmt = con.createStatement();
+        rs = stmt.executeQuery("select * from tbl_foods");
+        foodlist.clear();
+        while (rs.next()) {
+            foodlist.add(new Food(rs.getInt(1), rs.getString(2), rs.getFloat(3), rs.getString(4)));
+        }
+        dtm.setRowCount(0);// reset data model
+        for (int i = 0; i < foodlist.size(); i++) {
+            Object[] objs = { foodlist.get(i).foodid, foodlist.get(i).foodname, foodlist.get(i).foodprice,
+                    foodlist.get(i).fooddesc, };
+            dtm.addRow(objs);
         }
     }
-
+    
     ActionListener searchFoodListener = new ActionListener() {
 
         @Override
