@@ -1,5 +1,4 @@
 import java.util.ArrayList;
-
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -41,7 +40,7 @@ public class App {
     int row, col;
 
     public static void main(String[] args) throws Exception {
-        String url = "jdbc:sqlite:C:/Users/DELL/Documents/GitHub/JavaProject/foodapp_sqlite/src/chinook.db";
+        String url = "jdbc:sqlite:food.db";
         conn = DriverManager.getConnection(url);
         App app = new App();
         app.mainInterface();
